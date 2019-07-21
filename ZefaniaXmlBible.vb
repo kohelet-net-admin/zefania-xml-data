@@ -143,8 +143,9 @@ Public Class ZefaniaXmlBible
         Get
             Static Result As List(Of ZefaniaXmlBook)
             If Result Is Nothing Then
-                Me.ValidateXmlData()
+                'Me.ValidateXmlData()
                 Dim AllBooks As XmlNodeList = XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("BIBLEBOOK")
+                Result = New List(Of ZefaniaXmlBook)
                 For Each BookNode As XmlNode In AllBooks
                     Result.Add(New ZefaniaXmlBook(Me, BookNode))
                 Next
