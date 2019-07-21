@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C4ADC7CA-C266-47A3-B38F-35A77818E146}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>zefania_xml_data</RootNamespace>
-    <AssemblyName>zefania-xml-data</AssemblyName>
+    <RootNamespace>KoheletNetwork</RootNamespace>
+    <AssemblyName>ZefaniaXml.Data</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -19,7 +19,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>zefania-xml-data.xml</DocumentationFile>
+    <DocumentationFile>ZefaniaXml.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -28,7 +28,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>zefania-xml-data.xml</DocumentationFile>
+    <DocumentationFile>ZefaniaXml.Data.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
