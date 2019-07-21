@@ -8,6 +8,10 @@
         Me.BookXmlNode = xmlNode
     End Sub
 
+    ''' <summary>
+    ''' This attribut should hold the book name in long form e.x. "Genesis"
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property BookName As String
         Get
             Try
@@ -19,6 +23,10 @@
         End Get
     End Property
 
+    ''' <summary>
+    ''' This attribute holds the book book name in short form e.x. "Gen"
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property BookShortName As String
         Get
             Try
@@ -30,6 +38,10 @@
         End Get
     End Property
 
+    ''' <summary>
+    ''' A number which is unambiguous for a certain bible book
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property BookNumber As Integer
         Get
             Try
