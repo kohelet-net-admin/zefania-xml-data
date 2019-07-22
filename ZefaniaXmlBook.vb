@@ -9,17 +9,20 @@
     End Sub
 
     ''' <summary>
+    ''' Move this book to a new position in the bible collection
+    ''' </summary>
+    ''' <param name="insertBefore"></param>
+    Public Sub MoveBookPositionInBible(insertBefore As ZefaniaXmlBook)
+        BookXmlNode.ParentNode.InsertBefore(Me.BookXmlNode, insertBefore.BookXmlNode)
+    End Sub
+
+    ''' <summary>
     ''' This attribut should hold the book name in long form e.x. "Genesis"
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property BookName As String
         Get
-            Try
-                'Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("title").Item(0).InnerText
-                Return CType(BookXmlNode.Attributes("bname").InnerText, String)
-            Catch
-                Return Nothing
-            End Try
+            Return CType(BookXmlNode.Attributes("bname").InnerText, String)
         End Get
     End Property
 
@@ -29,12 +32,7 @@
     ''' <returns></returns>
     Public ReadOnly Property BookShortName As String
         Get
-            Try
-                'Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("title").Item(0).InnerText
-                Return CType(BookXmlNode.Attributes("bsname").InnerText, String)
-            Catch
-                Return Nothing
-            End Try
+            Return CType(BookXmlNode.Attributes("bsname").InnerText, String)
         End Get
     End Property
 
@@ -44,13 +42,16 @@
     ''' <returns></returns>
     Public ReadOnly Property BookNumber As Integer
         Get
-            Try
-                'Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("title").Item(0).InnerText
-                Return CType(BookXmlNode.Attributes("bnumber").InnerText, Integer)
-            Catch
-                Return Nothing
-            End Try
+            Return CType(BookXmlNode.Attributes("bnumber").InnerText, Integer)
         End Get
     End Property
+
+    Public Sub ValidateDeeply()
+        Try
+            'TODO: interate through chapters collection
+        Catch ex As Exception
+            Me.ParentBible.ValidationErrors.Add(ex)
+        End Try
+    End Sub
 
 End Class
