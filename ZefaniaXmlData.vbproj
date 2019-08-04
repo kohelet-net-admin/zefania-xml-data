@@ -85,7 +85,9 @@
     </Compile>
     <Compile Include="ZefaniaXmlBible.vb" />
     <Compile Include="ZefaniaXmlBook.vb" />
+    <Compile Include="ZefaniaXmlChapter.vb" />
     <Compile Include="ZefaniaXmlValidation.vb" />
+    <Compile Include="ZefaniaXmlVerse.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -105,6 +107,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <Compile Include="ZefaniaXmlCaption.vb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

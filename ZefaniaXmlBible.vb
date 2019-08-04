@@ -2,6 +2,7 @@
 Option Explicit On
 
 Imports System.Xml
+Imports KoheletNetwork
 
 Public Class ZefaniaXmlBible
 
@@ -360,6 +361,18 @@ Public Class ZefaniaXmlBible
             Return Result
         End Get
     End Property
+
+    '''' <summary>
+    '''' List of all available books by XY (display? / booknumber?) order
+    '''' </summary>
+    '''' <returns></returns>
+    'Public Function BooksSortedByDisplayOrder() As List(Of ZefaniaXmlBook)
+    '    Dim Result As New List(Of ZefaniaXmlBook)
+    'TODO
+    '    Throw New NotImplementedException("Index or BookNumber")
+    '    Return Result
+    'End Function
+
 
     ''' <summary>
     ''' Validate the XmlDocument as well as internal data structure inclusive all child objects
