@@ -90,8 +90,4 @@
         End Get
     End Property
 
-    Public ReadOnly Property AllCaptions As List(Of ZefaniaXmlCaption)
-    Public ReadOnly Property AllVerses As List(Of ZefaniaXmlVerse)
-
-
 End Class
