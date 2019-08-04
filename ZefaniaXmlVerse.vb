@@ -9,12 +9,22 @@
     End Sub
 
     ''' <summary>
-    ''' This attribut holds the caption title in long form, e.g. "Bereschit בראשית (Gen 1,1-6,8)"
+    ''' This verse content as plain text
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property Content As String
+    Public ReadOnly Property ContentText As String
         Get
-            Return CType(VerseXmlNode.Attributes("").InnerText, String)
+            Return CType(VerseXmlNode.InnerText, String)
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' This verse content with Zefania XML markup
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property ContentXml As String
+        Get
+            Return CType(VerseXmlNode.InnerXml, String)
         End Get
     End Property
 
