@@ -33,7 +33,11 @@ Public Class ZefaniaXmlBible
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).Attributes("xsi:noNamespaceSchemaLocation").Value
             Catch
-                Return Nothing
+                If LCase(Me.BibleInfoFormat) = LCase("Zefania XML Bible Markup Language") Then
+                    Return "zef2005.xsd" 'default schema
+                Else
+                    Return Nothing
+                End If
             End Try
         End Get
     End Property
