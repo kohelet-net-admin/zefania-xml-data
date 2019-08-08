@@ -93,9 +93,18 @@ Public Class ZefaniaXmlBible
         End Get
     End Property
 
-    Public ReadOnly Property BibleWithoutCopyright As Boolean
+    ''' <summary>
+    ''' Is the current bible without copyright or similar protection
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>Note: copyright protection is always there except it's declared public domain</remarks>
+    Private ReadOnly Property BibleWithoutCopyright As Boolean
         Get
-            If Me.BibleInfoRights <> Nothing AndAlso (Me.BibleInfoRights.ToLowerInvariant = "god" OrElse Me.BibleInfoRights.ToLowerInvariant.Contains("public domain")) Then
+            If Me.BibleInfoDescription <> Nothing AndAlso (Me.BibleInfoDescription.ToLowerInvariant.Contains("copyright") OrElse Me.BibleInfoDescription.ToLowerInvariant.Contains("©") OrElse Me.BibleInfoDescription.ToLowerInvariant.Contains("permission") OrElse Me.BibleInfoDescription.ToLowerInvariant.Contains("distribution")) Then
+                Return False
+            ElseIf Me.BibleInfoRights <> Nothing AndAlso (Me.BibleInfoRights.ToLowerInvariant = "copyright" OrElse Me.BibleInfoRights.ToLowerInvariant.Contains("©") OrElse Me.BibleInfoRights.ToLowerInvariant.Contains("permission") OrElse Me.BibleInfoRights.ToLowerInvariant.Contains("distribution")) Then
+                Return False
+            ElseIf Me.BibleInfoRights <> Nothing AndAlso (Me.BibleInfoRights.ToLowerInvariant = "god" OrElse Me.BibleInfoRights.ToLowerInvariant.Contains("public domain")) Then
                 Return True
             ElseIf Me.BibleInfoTitle <> Nothing Then
                 'If Me.BibleInfoTitle Then
@@ -117,12 +126,61 @@ Public Class ZefaniaXmlBible
         End Get
     End Property
 
-    Private Function BibleWithoutCopyRightRegExCheck(rgx As System.Text.RegularExpressions.Regex) As Boolean
+    Public Enum EditLicenseType As Integer
+        None = 0
+        SpecialEditLicense = -1
+        PublicDomainByRightsDeclaration = 10
+        PublicDomainByExpiredCopyrightProtection = 11
+        CreativeCommons_CC0 = 20
+        CreativeCommons_CC_BY_SA = 21
+    End Enum
+
+    Public ReadOnly Property BibleFreeToEditLicense As EditLicenseType
+        Get
+            If Me.BibleWithoutCopyright = False Then
+                Return EditLicenseType.None
+            ElseIf Me.BibleInfoRights <> Nothing AndAlso (Me.BibleInfoRights.ToLowerInvariant = "god" OrElse Me.BibleInfoRights.ToLowerInvariant.Contains("public domain")) Then
+                Return EditLicenseType.PublicDomainByRightsDeclaration
+            ElseIf Me.BibleInfoRights.ToLowerInvariant.Contains("cc0") Then
+                Return EditLicenseType.CreativeCommons_CC0
+            ElseIf Me.BibleInfoRights.ToLowerInvariant.Contains("creativecommons") AndAlso Me.BibleInfoRights.ToLowerInvariant.Contains("by-sa") Then
+                Return EditLicenseType.CreativeCommons_CC_BY_SA
+            ElseIf Me.BibleInfoRights.ToLowerInvariant.Contains("free-to-use-or-share-or-edit-contribute") Then
+                Return EditLicenseType.SpecialEditLicense
+            ElseIf Me.BibleInfoTitle <> Nothing Then
+                'If Me.BibleInfoTitle Then
+                Dim rgx As System.Text.RegularExpressions.Regex
+                rgx = New System.Text.RegularExpressions.Regex("^.*\d{4}.*(\d{4}).*$")
+                If rgx.IsMatch(Me.BibleInfoTitle) Then
+                    If BibleWithExpiredCopyRightIntoPublicDomainRegExCheck(rgx) Then
+                        Return EditLicenseType.PublicDomainByExpiredCopyrightProtection
+                    Else
+                        Return EditLicenseType.None
+                    End If
+                Else
+                    rgx = New System.Text.RegularExpressions.Regex("^.*(\d{4}).*$")
+                    If rgx.IsMatch(Me.BibleInfoTitle) Then
+                        If BibleWithExpiredCopyRightIntoPublicDomainRegExCheck(rgx) Then
+                            Return EditLicenseType.PublicDomainByExpiredCopyrightProtection
+                        Else
+                            Return EditLicenseType.None
+                        End If
+                    Else
+                        Return EditLicenseType.None
+                    End If
+                End If
+            Else
+                Return EditLicenseType.None
+            End If
+        End Get
+    End Property
+
+    Private Function BibleWithExpiredCopyRightIntoPublicDomainRegExCheck(rgx As System.Text.RegularExpressions.Regex) As Boolean
         If rgx.IsMatch(Me.BibleInfoTitle) Then
             Dim Year As String = rgx.Match(Me.BibleInfoTitle).Groups(1).Value
             If Integer.Parse(Year) = 0 Then
                 Return False
-            ElseIf Integer.Parse(Year) < Now.Year - 80 - 1 Then
+            ElseIf Integer.Parse(Year) < Now.Year - 95 - 1 Then
                 Return True
             Else
                 Return False
@@ -131,6 +189,7 @@ Public Class ZefaniaXmlBible
             Return False
         End If
     End Function
+
     ''' <summary>
     ''' Full bible name
     ''' </summary>
