@@ -111,11 +111,11 @@ Public Class ZefaniaXmlBible
                 Dim rgx As System.Text.RegularExpressions.Regex
                 rgx = New System.Text.RegularExpressions.Regex("^.*\d{4}.*(\d{4}).*$")
                 If rgx.IsMatch(Me.BibleInfoTitle) Then
-                    Return BibleWithoutCopyRightRegExCheck(rgx)
+                    Return BibleWithExpiredCopyRightIntoPublicDomainRegExCheck(rgx)
                 Else
                     rgx = New System.Text.RegularExpressions.Regex("^.*(\d{4}).*$")
                     If rgx.IsMatch(Me.BibleInfoTitle) Then
-                        Return BibleWithoutCopyRightRegExCheck(rgx)
+                        Return BibleWithExpiredCopyRightIntoPublicDomainRegExCheck(rgx)
                     Else
                         Return False
                     End If
