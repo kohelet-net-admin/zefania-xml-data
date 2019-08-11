@@ -1,4 +1,7 @@
-﻿Public Class ZefaniaXmlVerse
+﻿Option Strict On
+Option Explicit On
+
+Public Class ZefaniaXmlVerse
 
     Public ReadOnly Property ParentChapter As ZefaniaXmlChapter
     Private VerseXmlNode As System.Xml.XmlNode

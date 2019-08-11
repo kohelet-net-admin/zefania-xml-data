@@ -1,4 +1,7 @@
-﻿Imports System
+﻿Option Strict On
+Option Explicit On
+
+Imports System
 Imports System.Xml
 Imports System.Xml.Schema
 Imports System.Xml.XPath

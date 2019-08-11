@@ -1,4 +1,7 @@
-﻿Public Class ZefaniaXmlCaption
+﻿Option Strict On
+Option Explicit On
+
+Public Class ZefaniaXmlCaption
 
     Public ReadOnly Property ParentChapter As ZefaniaXmlChapter
     Private CaptionXmlNode As System.Xml.XmlNode

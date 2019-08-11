@@ -1,4 +1,7 @@
-﻿Public Class ZefaniaXmlBook
+﻿Option Strict On
+Option Explicit On
+
+Public Class ZefaniaXmlBook
 
     Public ReadOnly Property ParentBible As ZefaniaXmlBible
     Private BookXmlNode As System.Xml.XmlNode
@@ -13,16 +16,23 @@
     ''' </summary>
     ''' <param name="insertBefore"></param>
     Public Sub MoveBookPositionInBible(insertBefore As ZefaniaXmlBook)
-        BookXmlNode.ParentNode.InsertBefore(Me.BookXmlNode, insertBefore.BookXmlNode)
-        'TODO
-        Throw New NotImplementedException("TODO: reset books collection cache of ParentBible")
+        'reorder book
+        If insertBefore IsNot Nothing Then
+            'insert before given node
+            BookXmlNode.ParentNode.InsertBefore(Me.BookXmlNode, insertBefore.BookXmlNode)
+        Else
+            'insert after all nodes
+            BookXmlNode.ParentNode.InsertAfter(Me.BookXmlNode, BookXmlNode.ParentNode.LastChild)
+        End If
+        'reset books collection cache of ParentBible
+        ParentBible.ResetBooksCache()
     End Sub
 
     ''' <summary>
     ''' This attribut should hold the book name in long form, e.g. "Genesis"
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property BookName As String
+    Public Property BookName As String
         Get
             If BookXmlNode.Attributes("bname") Is Nothing Then
                 Throw New NullReferenceException("BookName attribute ""bname"" not found")
@@ -30,16 +40,22 @@
                 Return CType(BookXmlNode.Attributes("bname").InnerText, String)
             End If
         End Get
+        Set(value As String)
+            WriteAttribute(BookXmlNode, "bname", value)
+        End Set
     End Property
 
     ''' <summary>
     ''' This attribute holds the book book name in short form, e.g. "Gen"
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property BookShortName As String
+    Public Property BookShortName As String
         Get
             Return CType(BookXmlNode.Attributes("bsname").InnerText, String)
         End Get
+        Set(value As String)
+            WriteAttribute(BookXmlNode, "bsname", value)
+        End Set
     End Property
 
     ''' <summary>

@@ -28,6 +28,9 @@ Public Class ZefaniaXmlBible
         reader.Dispose()
     End Sub
 
+    Public Sub Save(path As String)
+        XmlDocument.Save(path)
+    End Sub
 
     Public ReadOnly Property SchemaName As String
         Get
@@ -43,7 +46,7 @@ Public Class ZefaniaXmlBible
         End Get
     End Property
 
-    Public ReadOnly Property BibleName As String
+    Public Property BibleName As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).Attributes("biblename").Value
@@ -51,6 +54,9 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteAttribute(XmlDocument.SelectNodes("/XMLBIBLE").Item(0), "biblename", value)
+        End Set
     End Property
 
     Public ReadOnly Property BibleRevision As String
@@ -194,7 +200,7 @@ Public Class ZefaniaXmlBible
     ''' Full bible name
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property BibleInfoTitle As String
+    Public Property BibleInfoTitle As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("title").Item(0).InnerText
@@ -202,13 +208,16 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("title").Item(0), value)
+        End Set
     End Property
 
     ''' <summary>
     ''' Unique identifier for bible name
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property BibleInfoIdentifier As String
+    Public Property BibleInfoIdentifier As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("identifier").Item(0).InnerText
@@ -216,6 +225,9 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("identifier").Item(0), value)
+        End Set
     End Property
 
     Public ReadOnly Property BibleInfoLanguage As String
@@ -291,7 +303,7 @@ Public Class ZefaniaXmlBible
             End Try
         End Get
     End Property
-    Public ReadOnly Property BibleInfoDescription As String
+    Public Property BibleInfoDescription As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("description").Item(0).InnerText
@@ -299,6 +311,9 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("description").Item(0), value)
+        End Set
     End Property
     Public ReadOnly Property BibleInfoType As String
         Get
@@ -394,15 +409,19 @@ Public Class ZefaniaXmlBible
         End Try
     End Function
 
+    Friend Sub ResetBooksCache()
+        Me.Books_Result = Nothing
+    End Sub
+
+    Private Books_Result As List(Of ZefaniaXmlBook)
     ''' <summary>
     ''' List of all available books
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property Books As List(Of ZefaniaXmlBook)
         Get
-            Static Result As List(Of ZefaniaXmlBook)
-            If Result Is Nothing Then
-                Result = New List(Of ZefaniaXmlBook)
+            If Books_Result Is Nothing Then
+                Books_Result = New List(Of ZefaniaXmlBook)
                 Try
                     'Me.ValidateXmlData()
                     Dim AllBooks As XmlNodeList = XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("BIBLEBOOK")
@@ -410,14 +429,14 @@ Public Class ZefaniaXmlBible
                         Me.ValidationErrors.Add(New Exception("Books collection is empty"))
                     Else
                         For Each BookNode As XmlNode In AllBooks
-                            Result.Add(New ZefaniaXmlBook(Me, BookNode))
+                            Books_Result.Add(New ZefaniaXmlBook(Me, BookNode))
                         Next
                     End If
                 Catch ex As Exception
                     Me.ValidationErrors.Add(New Exception("Books collection not accessible", ex))
                 End Try
             End If
-            Return Result
+            Return Books_Result
         End Get
     End Property
 
@@ -548,6 +567,7 @@ Public Class ZefaniaXmlBible
         Return New Converter(Of Exception, String)(Function(ex As Exception)
                                                        Return ex.ToString()
                                                    End Function)
+
     End Function
 
 End Class

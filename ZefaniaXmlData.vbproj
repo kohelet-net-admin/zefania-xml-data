@@ -44,6 +44,9 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CompuMaster.Data, Version=2.8.2019.514, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\jewishbible-tools\0110_RegisterZefaniaXmlFiles\packages\CompuMaster.Data.2.8.2019.514\lib\net20\CompuMaster.Data.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -83,9 +86,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ZefaniaStatistics.vb" />
     <Compile Include="ZefaniaXmlBible.vb" />
     <Compile Include="ZefaniaXmlBook.vb" />
     <Compile Include="ZefaniaXmlChapter.vb" />
+    <Compile Include="ZefaniaXmlTools.vb" />
     <Compile Include="ZefaniaXmlValidation.vb" />
     <Compile Include="ZefaniaXmlVerse.vb" />
   </ItemGroup>
@@ -108,6 +113,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <Compile Include="ZefaniaXmlCaption.vb" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

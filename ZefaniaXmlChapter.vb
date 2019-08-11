@@ -1,4 +1,7 @@
-﻿Imports KoheletNetwork
+﻿Option Strict On
+Option Explicit On
+
+Imports KoheletNetwork
 
 Public Class ZefaniaXmlChapter
 
@@ -16,7 +19,7 @@ Public Class ZefaniaXmlChapter
     ''' <returns></returns>
     Public ReadOnly Property ChapterNumber As String
         Get
-            Return CType(ChapterXmlNode.Attributes("cnumber").InnerText, Integer)
+            Return Integer.Parse(ChapterXmlNode.Attributes("cnumber").InnerText).ToString
         End Get
     End Property
 
