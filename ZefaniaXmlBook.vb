@@ -4,7 +4,7 @@ Option Explicit On
 Public Class ZefaniaXmlBook
 
     Public ReadOnly Property ParentBible As ZefaniaXmlBible
-    Private BookXmlNode As System.Xml.XmlNode
+    Friend BookXmlNode As System.Xml.XmlNode
 
     Friend Sub New(bible As ZefaniaXmlBible, xmlNode As System.Xml.XmlNode)
         Me.ParentBible = bible

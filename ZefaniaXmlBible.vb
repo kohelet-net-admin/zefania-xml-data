@@ -440,6 +440,18 @@ Public Class ZefaniaXmlBible
         End Get
     End Property
 
+    ''' <summary>
+    ''' Add a book to the Xml node list
+    ''' </summary>
+    ''' <param name="newBook"></param>
+    Public Sub AddBook(newBook As ZefaniaXmlBook)
+        'Dim AllBooks As XmlNodeList = XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("BIBLEBOOK")
+        'AllBooks.Item(0).PrependChild(XmlDocument.CreateNode(newBook.BookXmlNode.OuterXml))
+        Dim newNode As System.Xml.XmlNode = XmlDocument.ImportNode(newBook.BookXmlNode, True)
+        XmlDocument.SelectNodes("/XMLBIBLE").Item(0).PrependChild(newNode)
+        Me.ResetBooksCache()
+    End Sub
+
     '''' <summary>
     '''' List of all available books by XY (display? / booknumber?) order
     '''' </summary>
