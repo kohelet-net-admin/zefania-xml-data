@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="ZefaniaStatistics.vb" />
     <Compile Include="ZefaniaXmlBible.vb" />
+    <Compile Include="ZefaniaXmlBibleInfoCache.vb" />
     <Compile Include="ZefaniaXmlBook.vb" />
     <Compile Include="ZefaniaXmlChapter.vb" />
     <Compile Include="ZefaniaXmlTools.vb" />

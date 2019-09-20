@@ -34,15 +34,30 @@ Public Class ZefaniaXmlBook
     ''' <returns></returns>
     Public Property BookName As String
         Get
+            Try
+                Return _BookName
+            Catch ex As Exception
+                'Fail-over to short name
+                Try
+                    Return BookShortName
+                Catch
+                    Throw ex
+                End Try
+            End Try
+        End Get
+        Set(value As String)
+            WriteAttribute(BookXmlNode, "bname", value)
+        End Set
+    End Property
+
+    Private ReadOnly Property _BookName As String
+        Get
             If BookXmlNode.Attributes("bname") Is Nothing Then
                 Throw New NullReferenceException("BookName attribute ""bname"" not found")
             Else
                 Return CType(BookXmlNode.Attributes("bname").InnerText, String)
             End If
         End Get
-        Set(value As String)
-            WriteAttribute(BookXmlNode, "bname", value)
-        End Set
     End Property
 
     ''' <summary>

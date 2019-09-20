@@ -240,7 +240,7 @@ Public Class ZefaniaXmlBible
         End Get
     End Property
 
-    Public ReadOnly Property BibleInfoFormat As String
+    Public Property BibleInfoFormat As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("format").Item(0).InnerText
@@ -248,8 +248,11 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("format").Item(0), value)
+        End Set
     End Property
-    Public ReadOnly Property BibleInfoDate As String
+    Public Property BibleInfoDate As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("date").Item(0).InnerText
@@ -257,6 +260,9 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("date").Item(0), value)
+        End Set
     End Property
     Public ReadOnly Property BibleInfoRights As String
         Get
@@ -267,14 +273,17 @@ Public Class ZefaniaXmlBible
             End Try
         End Get
     End Property
-    Public ReadOnly Property BibleInfoSources As String
+    Public Property BibleInfoSource As String
         Get
             Try
-                Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("sources").Item(0).InnerText
+                Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("source").Item(0).InnerText
             Catch
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("source").Item(0), value)
+        End Set
     End Property
     Public ReadOnly Property BibleInfoSubject As String
         Get
@@ -285,7 +294,7 @@ Public Class ZefaniaXmlBible
             End Try
         End Get
     End Property
-    Public ReadOnly Property BibleInfoPublisher As String
+    Public Property BibleInfoPublisher As String
         Get
             Try
                 Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("publisher").Item(0).InnerText
@@ -293,6 +302,9 @@ Public Class ZefaniaXmlBible
                 Return Nothing
             End Try
         End Get
+        Set(value As String)
+            WriteNodeContent(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("publisher").Item(0), value)
+        End Set
     End Property
     Public ReadOnly Property BibleInfoCreator As String
         Get
@@ -333,7 +345,15 @@ Public Class ZefaniaXmlBible
             End Try
         End Get
     End Property
-
+    Public ReadOnly Property BibleInfoContributors As String
+        Get
+            Try
+                Return XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0).SelectNodes("contributors").Item(0).InnerText
+            Catch
+                Return Nothing
+            End Try
+        End Get
+    End Property
     ''' <summary>
     ''' Check for the XML schema name and validate accordingly
     ''' </summary>
