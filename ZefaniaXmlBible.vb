@@ -28,7 +28,18 @@ Public Class ZefaniaXmlBible
         reader.Dispose()
     End Sub
 
+    ''' <summary>
+    ''' Force the INFORMATION node to appear on top of the XML document
+    ''' </summary>
+    ''' <remarks>
+    ''' After adding books, it may happen that the node INFORMATION is somewhere between several BIBLEBOOK nodes (especially after combining several bibles). This behaviour might already been considered as a bug.
+    ''' </remarks>
+    Private Sub PushBibleInfoHeadersToTopOfXmlDocument()
+        XmlDocument.SelectNodes("/XMLBIBLE").Item(0).PrependChild(XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("INFORMATION").Item(0))
+    End Sub
+
     Public Sub Save(path As String)
+        PushBibleInfoHeadersToTopOfXmlDocument()
         XmlDocument.Save(path)
     End Sub
 
