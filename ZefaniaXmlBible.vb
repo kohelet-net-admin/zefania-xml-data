@@ -14,10 +14,15 @@ Public Class ZefaniaXmlBible
     Private XmlFilePath As String
     Private ReadOnly Property XmlDocument As XmlDocument
 
-    Public Sub New(filePath As String, xsdDirectory As String)
+    Public Sub New(filePath As String, xsdDirectory As String, rulesContextLanguageCode As String)
+        If rulesContextLanguageCode = Nothing OrElse rulesContextLanguageCode.Length > 3 Then
+            Throw New ArgumentException("rulesContextLanguageCode must be a 2 or 3 characters language code")
+        End If
+
         'Setup internal fields
         Me.XmlFilePath = filePath
         Me.XsdDirectory = xsdDirectory
+
         'Load XmlDocument
         Dim reader As XmlReader = Nothing
         reader = XmlReader.Create(filePath)
@@ -26,7 +31,17 @@ Public Class ZefaniaXmlBible
         XmlDocument = document
         reader.Close()
         reader.Dispose()
+
+        'Setup context for bible processing
+        Me.RulesContext = rulesContextLanguageCode & "\" & Me.BibleInfoIdentifier
     End Sub
+
+    ''' <summary>
+    ''' The context name for applying rules as declared by the bible's directory
+    ''' </summary>
+    ''' <returns>A bible language code like ENG</returns>
+    Public ReadOnly Property RulesContext As String
+
 
     ''' <summary>
     ''' Force the INFORMATION node to appear on top of the XML document
@@ -479,6 +494,7 @@ Public Class ZefaniaXmlBible
         'Dim AllBooks As XmlNodeList = XmlDocument.SelectNodes("/XMLBIBLE").Item(0).SelectNodes("BIBLEBOOK")
         'AllBooks.Item(0).PrependChild(XmlDocument.CreateNode(newBook.BookXmlNode.OuterXml))
         Dim newNode As System.Xml.XmlNode = XmlDocument.ImportNode(newBook.BookXmlNode, True)
+        ZefaniaXmlTools.WriteAttribute(newNode, "sourcebible", newBook.ParentBible.RulesContext)
         XmlDocument.SelectNodes("/XMLBIBLE").Item(0).PrependChild(newNode)
         Me.ResetBooksCache()
     End Sub

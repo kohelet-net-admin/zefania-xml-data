@@ -11,6 +11,29 @@ Public Class ZefaniaXmlBook
         Me.BookXmlNode = xmlNode
     End Sub
 
+    Public Overrides Function ToString() As String
+        If Me.OriginatingRulesContext <> Nothing Then
+            Return Me.BookName & " [" & Me.OriginatingRulesContext & "]"
+        Else
+            Return Me.BookName
+        End If
+    End Function
+
+    ''' <summary>
+    ''' The originating bible
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>This information is typically required only to identify the source of this book when a bible was combined by several bibles</remarks>
+    Public ReadOnly Property OriginatingRulesContext As String
+        Get
+            If BookXmlNode.Attributes("sourcebible") Is Nothing Then
+                Return Me.ParentBible.RulesContext
+            Else
+                Return CType(BookXmlNode.Attributes("sourcebible").InnerText, String)
+            End If
+        End Get
+    End Property
+
     ''' <summary>
     ''' Move this book to a new position in the bible collection
     ''' </summary>

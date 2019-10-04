@@ -9,12 +9,14 @@ Public Class ZefaniaStatistics
         Result.Columns.Add("BookNumber", GetType(Integer))
         Result.Columns.Add("BookName", GetType(String))
         Result.Columns.Add("BookShortName", GetType(String))
+        Result.Columns.Add("OriginatingRulesContext", GetType(String))
         For MyCounter As Integer = 0 To bible.Books.Count - 1
             Dim Row As DataRow = Result.NewRow
             Row(0) = MyCounter
             Row(1) = bible.Books(MyCounter).BookNumber
             Row(2) = bible.Books(MyCounter).BookName
             Row(3) = bible.Books(MyCounter).BookShortName
+            Row(4) = bible.Books(MyCounter).OriginatingRulesContext
             Result.Rows.Add(Row)
         Next
         'Result = CompuMaster.Data.DataTables.CreateDataTableClone(Result, "", "BookNumber") 
